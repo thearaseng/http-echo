@@ -15,7 +15,7 @@ build-jar:
   script:
     - gradle bootjar -x test
     - rm -f build/libs/*-plain.jar
-    - mv build/libs/$(ls libs) app.jar
+    - mv build/libs/$(ls build/libs) app.jar
   artifacts:
     paths:
       - app.jar
