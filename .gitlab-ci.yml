@@ -10,10 +10,15 @@ variables:
 build-jar:
   stage: compile
   image: gradle:jdk8
-  script:
-    - gradle bootjar -x test
   only:
     - dev
+  script:
+    - gradle bootjar -x test
+    - rm -f build/libs/*-plain.jar
+    - mv build/libs/$(ls libs) app.jar
+  artifacts:
+    paths:
+      - app.jar
 
 docker-build:
   stage: build
