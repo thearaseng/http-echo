@@ -1,6 +1,5 @@
 stages:
   - compile
-#  - build
 
 variables:
   DOMAIN_NAME: wingecosys.com
