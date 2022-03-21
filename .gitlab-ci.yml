@@ -25,7 +25,8 @@ docker-build:
   image:
     name: docker:latest
   before_script:
-    - VERSION=$(cat version.properties | sed 's/.*VERSION=//')-$CI_COMMIT_SHORT_SHA
+    - VERSION=$(cat version.properties || echo '0.0.1' | sed 's/.*VERSION=//')
+    - VERSION=$VERSION-$CI_COMMIT_SHORT_SHA
   script:
     - apk add --no-cache curl jq python3 py3-pip
     - pip install awscli
