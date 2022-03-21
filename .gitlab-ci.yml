@@ -1,6 +1,6 @@
 stages:
   - compile
-  - build
+#  - build
 
 variables:
   DOMAIN_NAME: wingecosys.com
@@ -11,7 +11,7 @@ build-jar:
   stage: compile
   image: gradle:jdk8
   script:
-    - gradle gradle bootjar -x test
+    - gradle bootjar -x test
 
 docker-build:
   stage: build
