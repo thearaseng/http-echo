@@ -23,7 +23,7 @@ build-jar:
 docker-build:
   stage: build
   image:
-    name: docker:latest
+    name: public.ecr.aws/b1t9u1a9/awscli:0.0.1
   before_script:
     - VERSION=$(cat version.properties || echo '0.0.1' | sed 's/.*VERSION=//')
     - VERSION=$VERSION-$CI_COMMIT_SHORT_SHA
