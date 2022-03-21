@@ -1,0 +1,29 @@
+stages:
+  - compile
+  - build
+
+variables:
+  DOMAIN_NAME: wingecosys.com
+  SERVICE_NAME: "$CI_PROJECT_NAME"
+  DOCKER_REGISTRY: "$AWS_ECR"
+
+build-jar:
+  stage: compile
+  image: gradle:jdk8
+  script:
+    - gradle gradle bootjar -x test
+
+docker-build:
+  stage: build
+  image:
+    name: docker:latest
+  before_script:
+    - VERSION=$(cat version.properties | sed 's/.*VERSION=//')-$CI_COMMIT_SHORT_SHA
+  script:
+    - apk add --no-cache curl jq python3 py3-pip
+    - pip install awscli
+    - aws ecr get-login-password | docker login --username AWS --password-stdin $DOCKER_REGISTRY
+    - docker build -t $DOCKER_REGISTRY/$SERVICE_NAME:$CI_COMMIT_REF_NAME.${VERSION} .
+    - docker push $DOCKER_REGISTRY/$SERVICE_NAME:$CI_COMMIT_REF_NAME.${VERSION}
+  only:
+    - dev
