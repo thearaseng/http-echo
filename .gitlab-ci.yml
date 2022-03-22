@@ -35,4 +35,4 @@ docker-build:
   only:
     - dev
 
-include: '/.gitlab/configmap.yml'
+include: '/.gitlab/deployment.yml'

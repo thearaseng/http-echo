@@ -1,0 +1,46 @@
+configmap:
+  stage: env_var
+  image:
+    name: public.ecr.aws/b1t9u1a9/kubectl:0.0.1
+  before_script:
+    - mkdir -p $HOME/.kube && rm -f $HOME/.kube/config && cp $KUBE_CONFIG_FILE $HOME/.kube/config
+  script:
+    - |
+      cat <<EOF | kubectl apply -n logging -f -
+      kind: ConfigMap
+      apiVersion: v1
+      metadata:
+        name: ${SERVICE_NAME}-configmap
+      data:
+        MESSAGE: $HTTP_ECHO_MESSAGE
+      EOF
+
+    - |
+      cat <<EOF | kubectl apply -n logging -f -
+      apiVersion: apps/v1
+      kind: Deployment
+      metadata:
+        name: ${SERVICE_NAME}
+        labels:
+          app: ${SERVICE_NAME}
+      spec:
+        replicas: 1
+        selector:
+          matchLabels:
+            app: ${SERVICE_NAME}
+        template:
+          metadata:
+            labels:
+              app: ${SERVICE_NAME}
+          spec:
+            containers:
+              - name: ${SERVICE_NAME}
+                image: $DOCKER_REGISTRY/$SERVICE_NAME:$CI_COMMIT_REF_NAME.${VERSION}
+                ports:
+                  - containerPort: 8080
+                envFrom:
+                  - configMapRef:
+                      name: ${SERVICE_NAME}-configmap
+      EOF
+  only:
+    - dev
