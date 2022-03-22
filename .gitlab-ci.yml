@@ -7,6 +7,7 @@ variables:
   DOMAIN_NAME: wingecosys.com
   SERVICE_NAME: "$CI_PROJECT_NAME"
   DOCKER_REGISTRY: "$AWS_ECR"
+  SERVER_PORT: "8080"
 
 build-jar:
   stage: compile

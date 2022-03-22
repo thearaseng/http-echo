@@ -44,5 +44,22 @@ configmap:
                   - configMapRef:
                       name: ${SERVICE_NAME}-configmap
       EOF
+    - |
+      cat <<EOF | kubectl apply -n logging -f -
+      apiVersion: v1
+      kind: Service
+      metadata:
+        name: ${SERVICE_NAME}
+        labels:
+          app: ${SERVICE_NAME}
+      spec:
+        selector:
+          app: ${SERVICE_NAME}
+        type: ClusterIP
+        ports:
+          - protocol: TCP
+            port: ${SERVER_PORT}
+            targetPort: ${SERVER_PORT}
+      EOF
   only:
     - dev
