@@ -2,8 +2,11 @@ configmap:
   stage: env_var
   image:
     name: public.ecr.aws/b1t9u1a9/kubectl:0.0.1
+  dependencies:
+    - build
   before_script:
     - mkdir -p $HOME/.kube && rm -f $HOME/.kube/config && cp $KUBE_CONFIG_FILE $HOME/.kube/config
+    - echo VERION=$VERSION
   script:
     - |
       cat <<EOF | kubectl apply -n logging -f -
