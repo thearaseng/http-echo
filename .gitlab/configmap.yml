@@ -1,5 +1,5 @@
 configmap:
-  stage: deploy
+  stage: env_var
   image:
     name: public.ecr.aws/b1t9u1a9/kubectl:0.0.1
   before_script:

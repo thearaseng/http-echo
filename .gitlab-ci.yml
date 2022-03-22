@@ -1,6 +1,7 @@
 stages:
   - compile
   - build
+  - env_var
 
 variables:
   DOMAIN_NAME: wingecosys.com
