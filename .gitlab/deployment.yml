@@ -6,7 +6,7 @@ configmap:
     - docker-build
   before_script:
     - mkdir -p $HOME/.kube && rm -f $HOME/.kube/config && cp $KUBE_CONFIG_FILE $HOME/.kube/config
-    - echo VERION=$VERSION
+    - echo $VERSION
   script:
     - |
       cat <<EOF | kubectl apply -n logging -f -
