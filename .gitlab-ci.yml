@@ -35,3 +35,5 @@ docker-build:
     - docker push $DOCKER_REGISTRY/$SERVICE_NAME:$CI_COMMIT_REF_NAME.${VERSION}
   only:
     - dev
+
+include: '/.gitlab/configmap.yml'
