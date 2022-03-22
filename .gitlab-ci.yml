@@ -27,11 +27,12 @@ docker-build:
     name: public.ecr.aws/b1t9u1a9/awscli:0.0.1
   before_script:
     - VERSION=$(cat version.properties || echo '0.0.1' | sed 's/.*VERSION=//')
-    - VERSION=$VERSION-$CI_COMMIT_SHORT_SHA
+    - IMAGE_TAG=$VERSION-$CI_COMMIT_SHORT_SHA
+    - echo $IMAGE_TAG > .image-tag
   script:
     - aws ecr get-login-password | docker login --username AWS --password-stdin $DOCKER_REGISTRY
-    - docker build -t $DOCKER_REGISTRY/$SERVICE_NAME:$CI_COMMIT_REF_NAME.${VERSION} .
-    - docker push $DOCKER_REGISTRY/$SERVICE_NAME:$CI_COMMIT_REF_NAME.${VERSION}
+    - docker build -t $DOCKER_REGISTRY/$SERVICE_NAME:$CI_COMMIT_REF_NAME.${IMAGE_TAG} .
+    - docker push $DOCKER_REGISTRY/$SERVICE_NAME:$CI_COMMIT_REF_NAME.${IMAGE_TAG}
   only:
     - dev
 

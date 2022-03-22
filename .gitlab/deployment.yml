@@ -4,8 +4,7 @@ configmap:
     name: public.ecr.aws/b1t9u1a9/kubectl:0.0.1
   before_script:
     - mkdir -p $HOME/.kube && rm -f $HOME/.kube/config && cp $KUBE_CONFIG_FILE $HOME/.kube/config
-    - VERSION=$(cat version.properties || echo '0.0.1' | sed 's/.*VERSION=//')
-    - VERSION=$VERSION-$CI_COMMIT_SHORT_SHA
+    - IMAGE_TAG=$(cat .image-tag)
   script:
     - |
       cat <<EOF | kubectl apply -n logging -f -
@@ -37,7 +36,7 @@ configmap:
           spec:
             containers:
               - name: ${SERVICE_NAME}
-                image: $DOCKER_REGISTRY/$SERVICE_NAME:$CI_COMMIT_REF_NAME.${VERSION}
+                image: $DOCKER_REGISTRY/$SERVICE_NAME:$CI_COMMIT_REF_NAME.${IMAGE_TAG}
                 ports:
                   - containerPort: 8080
                 envFrom:
