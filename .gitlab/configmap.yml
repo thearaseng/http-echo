@@ -13,6 +13,6 @@ configmap:
         name: http-echo-configmap 
       data:
         MESSAGE: $HTTP_ECHO_MESSAGE
-    EOF
+      EOF
   only:
     - dev
