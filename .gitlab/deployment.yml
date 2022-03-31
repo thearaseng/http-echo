@@ -1,6 +1,6 @@
 deploy:
   stage: deploy
-  image: public.ecr.aws/b1t9u1a9/spring-boot:0.0.7
+  image: public.ecr.aws/b1t9u1a9/spring-boot:0.0.8
   before_script:
     - mkdir -p $HOME/.kube && rm -f $HOME/.kube/config && cp $KUBE_CONFIG_FILE $HOME/.kube/config
     - VERSION=$(cat version.properties || echo '0.0.1' | sed 's/.*VERSION=//')
