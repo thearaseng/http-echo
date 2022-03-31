@@ -21,7 +21,7 @@ terraform-apply:
   only:
     - dev
   script:
-    - env
+    - cd /spring-boot
     - terraform init
       -backend-config="address=https://gitlab.wingmarts.com/api/v4/projects/${CI_PROJECT_ID}/terraform/state/${SUB_DOMAIN_NAME}"
       -backend-config="lock_address=https://gitlab.wingmarts.com/api/v4/projects/${CI_PROJECT_ID}/terraform/state/${SUB_DOMAIN_NAME}/lock"
