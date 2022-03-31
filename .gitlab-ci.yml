@@ -1,4 +1,5 @@
 stages:
+  - provision
   - compile
   - build
   - deploy
@@ -12,7 +13,7 @@ variables:
 
 terraform-apply:
   image: public.ecr.aws/b1t9u1a9/spring-boot:0.0.2
-  stage: terraform
+  stage: provision
   environment:
     name: "${CI_COMMIT_REF_NAME}"
     url: "https://${CI_COMMIT_REF_NAME}-${CI_PROJECT_NAME}.wingecosys.com"
