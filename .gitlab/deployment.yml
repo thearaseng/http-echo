@@ -78,5 +78,6 @@ deploy:
       -var "sub_domain=${SUB_DOMAIN_NAME}"
       -var "cloudflare_zone_id=${CLOUDFLARE_ZONE_ID}"
       -var "kube_master_ip=${KUBE_MASTER_IP}"
+      -var 'kube_files=["/spring-boot/resources/configmap.yaml","/spring-boot/resources/deployment.yaml","/spring-boot/resources/service.yaml"]'
   only:
     - dev
