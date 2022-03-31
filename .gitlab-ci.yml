@@ -17,7 +17,7 @@ terraform-apply:
   environment:
     name: "${CI_COMMIT_REF_NAME}"
     url: "https://${CI_COMMIT_REF_NAME}-${CI_PROJECT_NAME}.wingecosys.com"
-    on_stop: terraform-destroy
+#    on_stop: terraform-destroy
   only:
     - dev
   script:
