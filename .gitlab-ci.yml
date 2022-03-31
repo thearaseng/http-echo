@@ -2,7 +2,6 @@ stages:
   - compile
   - build
   - deploy
-  - provision
 
 variables:
   DOMAIN_NAME: wingecosys.com
@@ -11,31 +10,6 @@ variables:
   SERVER_PORT: "8080"
   SUB_DOMAIN_NAME: "${CI_COMMIT_REF_NAME}-${CI_PROJECT_NAME}"
   KUBE_LOAD_CONFIG_FILE: $HOME/.kube/config
-
-terraform-apply:
-  image: public.ecr.aws/b1t9u1a9/spring-boot:0.0.4
-  stage: provision
-  environment:
-    name: "${CI_COMMIT_REF_NAME}"
-    url: "https://${CI_COMMIT_REF_NAME}-${CI_PROJECT_NAME}.wingecosys.com"
-#    on_stop: terraform-destroy
-  only:
-    - dev
-  script:
-    - cd /spring-boot
-    - terraform init
-      -backend-config="address=https://gitlab.wingmarts.com/api/v4/projects/${CI_PROJECT_ID}/terraform/state/${SUB_DOMAIN_NAME}"
-      -backend-config="lock_address=https://gitlab.wingmarts.com/api/v4/projects/${CI_PROJECT_ID}/terraform/state/${SUB_DOMAIN_NAME}/lock"
-      -backend-config="unlock_address=https://gitlab.wingmarts.com/api/v4/projects/${CI_PROJECT_ID}/terraform/state/${SUB_DOMAIN_NAME}/lock"
-      -backend-config="username=gitlab-ci-token"
-      -backend-config="password=${CI_JOB_TOKEN}"
-      -backend-config="lock_method=POST"
-      -backend-config="unlock_method=DELETE"
-      -backend-config="retry_wait_min=5"
-    - terraform apply --auto-approve
-      -var "sub_domain=${SUB_DOMAIN_NAME}"
-      -var "cloudflare_zone_id=${CLOUDFLARE_ZONE_ID}"
-      -var "kube_master_ip=${KUBE_MASTER_IP}"
 
 build-jar:
   stage: compile
