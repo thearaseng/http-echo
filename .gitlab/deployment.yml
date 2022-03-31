@@ -8,7 +8,7 @@ deploy:
     - IMAGE_TAG=$VERSION-$CI_COMMIT_SHORT_SHA
   script:
     - |
-      cat <<EOF | kubectl apply -n logging -f -
+      cat <<EOF > /spring-boot/resources/configmap.yaml
       kind: ConfigMap
       apiVersion: v1
       metadata:
@@ -18,7 +18,7 @@ deploy:
       EOF
 
     - |
-      cat <<EOF | kubectl apply -n logging -f -
+      cat <<EOF > /spring-boot/resources/deployment.yaml
       apiVersion: apps/v1
       kind: Deployment
       metadata:
@@ -45,7 +45,7 @@ deploy:
                       name: ${SERVICE_NAME}-configmap
       EOF
     - |
-      cat <<EOF | kubectl apply -n logging -f -
+      cat <<EOF > /spring-boot/resources/service.yaml
       apiVersion: v1
       kind: Service
       metadata:
@@ -61,5 +61,6 @@ deploy:
             port: ${SERVER_PORT}
             targetPort: ${SERVER_PORT}
       EOF
+    - ls -la /spring-boot/resources
   only:
     - dev
