@@ -12,7 +12,7 @@ variables:
   SUB_DOMAIN_NAME: "${CI_COMMIT_REF_NAME}-${CI_PROJECT_NAME}"
 
 terraform-apply:
-  image: public.ecr.aws/b1t9u1a9/spring-boot:0.0.3
+  image: public.ecr.aws/b1t9u1a9/spring-boot:0.0.4
   stage: provision
   environment:
     name: "${CI_COMMIT_REF_NAME}"
