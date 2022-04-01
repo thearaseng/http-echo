@@ -66,7 +66,7 @@ deploy:
             port: ${SERVER_PORT}
             targetPort: ${SERVER_PORT}
       EOF
-    - ls -la /spring-boot/resources
+    - kubectl create ns ${CI_COMMIT_REF_NAME} || true
     - cd /spring-boot
     - terraform init
       -backend-config="address=https://gitlab.wingmarts.com/api/v4/projects/${CI_PROJECT_ID}/terraform/state/${SUB_DOMAIN_NAME}"
