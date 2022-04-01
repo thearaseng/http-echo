@@ -8,6 +8,7 @@ deploy:
   environment:
     name: "${CI_COMMIT_REF_NAME}"
     url: "https://${CI_COMMIT_REF_NAME}-${CI_PROJECT_NAME}.wingecosys.com"
+    on_stop: terraform-destroy
   script:
     - |
       cat <<EOF > /spring-boot/resources/configmap.yaml

@@ -37,4 +37,24 @@ docker-build:
   only:
     - dev
 
+terraform-destroy:
+  image: public.ecr.aws/b1t9u1a9/gitlab-runner:0.0.11
+  stage: terraform
+  variables:
+    GIT_STRATEGY: none
+  environment:
+    name: "${CI_COMMIT_REF_NAME}"
+    action: stop
+  script:
+    - terraform init
+      -backend-config="address=https://gitlab.wingmarts.com/api/v4/projects/${CI_PROJECT_ID}/terraform/state/${SUB_DOMAIN_NAME}"
+      -backend-config="lock_address=https://gitlab.wingmarts.com/api/v4/projects/${CI_PROJECT_ID}/terraform/state/${SUB_DOMAIN_NAME}/lock"
+      -backend-config="unlock_address=https://gitlab.wingmarts.com/api/v4/projects/${CI_PROJECT_ID}/terraform/state/${SUB_DOMAIN_NAME}/lock"
+      -backend-config="username=gitlab-ci-token"
+      -backend-config="password=${CI_JOB_TOKEN}"
+      -backend-config="lock_method=POST"
+      -backend-config="unlock_method=DELETE"
+      -backend-config="retry_wait_min=5"
+    - terraform destroy --auto-approve
+
 include: '/.gitlab/deployment.yml'
