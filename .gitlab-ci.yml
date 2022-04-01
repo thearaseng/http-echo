@@ -9,7 +9,7 @@ variables:
   DOCKER_REGISTRY: "$AWS_ECR"
   SERVER_PORT: "8080"
   SUB_DOMAIN_NAME: "${CI_COMMIT_REF_NAME}-${CI_PROJECT_NAME}"
-  KUBE_LOAD_CONFIG_FILE: $HOME/.kube/config
+#  KUBE_LOAD_CONFIG_FILE: $HOME/.kube/config
 
 build-jar:
   stage: compile
