@@ -9,6 +9,7 @@ variables:
   DOCKER_REGISTRY: "$AWS_ECR"
   SERVER_PORT: "8080"
   SUB_DOMAIN_NAME: "${CI_COMMIT_REF_NAME}-${CI_PROJECT_NAME}"
+  GITLAB_RUNNER: public.ecr.aws/b1t9u1a9/spring-boot:0.0.16
 
 build-jar:
   stage: compile
@@ -26,7 +27,7 @@ build-jar:
 docker-build:
   stage: build
   image:
-    name: public.ecr.aws/b1t9u1a9/awscli:0.0.1
+    name: ${GITLAB_RUNNER}
   before_script:
     - VERSION=$(cat version.properties || echo '0.0.1' | sed 's/.*VERSION=//')
     - IMAGE_TAG=$VERSION-$CI_COMMIT_SHORT_SHA
