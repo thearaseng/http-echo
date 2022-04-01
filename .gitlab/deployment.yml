@@ -66,6 +66,33 @@ deploy:
             port: ${SERVER_PORT}
             targetPort: ${SERVER_PORT}
       EOF
+    - |
+      cat <<EOF > /spring-boot/resources/ingress.yaml
+      kind: Ingress
+      apiVersion: networking.k8s.io/v1
+      metadata:
+        name: ${CI_COMMIT_REF_NAME}-${SERVICE_NAME}
+        namespace: default
+        annotations:
+          nginx.ingress.kubernetes.io/rewrite-target: /
+      spec:
+        ingressClassName: nginx
+        rules:
+          - host: ${CI_COMMIT_REF_NAME}-${CI_PROJECT_NAME}.wingecosys.com
+            http:
+              paths:
+                - path: /
+                  pathType: Prefix
+                  backend:
+                    service:
+                      name: ${SERVICE_NAME}
+                      port:
+                        number: ${SERVER_PORT}
+      status:
+        loadBalancer:
+          ingress:
+            - ip: ${KUBE_MASTER_PRIVATE_IP}
+      EOF
     - kubectl create ns ${CI_COMMIT_REF_NAME} || true
     - cd /spring-boot
     - terraform init
