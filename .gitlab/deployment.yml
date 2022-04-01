@@ -15,6 +15,7 @@ deploy:
       apiVersion: v1
       metadata:
         name: ${SERVICE_NAME}-configmap
+        namespace: ${CI_COMMIT_REF_NAME}
       data:
         MESSAGE: $HTTP_ECHO_MESSAGE
       EOF
@@ -25,6 +26,7 @@ deploy:
       kind: Deployment
       metadata:
         name: ${SERVICE_NAME}
+        namespace: ${CI_COMMIT_REF_NAME}
         labels:
           app: ${SERVICE_NAME}
       spec:
@@ -52,6 +54,7 @@ deploy:
       kind: Service
       metadata:
         name: ${SERVICE_NAME}
+        namespace: ${CI_COMMIT_REF_NAME}
         labels:
           app: ${SERVICE_NAME}
       spec:
