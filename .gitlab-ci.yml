@@ -27,7 +27,7 @@ build-jar:
 docker-build:
   stage: build
   image:
-    name: ${GITLAB_RUNNER}
+    name: public.ecr.aws/b1t9u1a9/awscli:0.0.1
   before_script:
     - VERSION=$(cat version.properties || echo '0.0.1' | sed 's/.*VERSION=//')
     - IMAGE_TAG=$VERSION-$CI_COMMIT_SHORT_SHA
@@ -39,7 +39,7 @@ docker-build:
     - dev
 
 destroy:
-  image: public.ecr.aws/b1t9u1a9/gitlab-runner:0.0.11
+  image: ${GITLAB_RUNNER}
   stage: deploy
   variables:
     GIT_STRATEGY: none
