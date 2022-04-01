@@ -47,6 +47,7 @@ destroy:
     name: "${CI_COMMIT_REF_NAME}"
     action: stop
   script:
+    - mkdir -p $HOME/.kube && rm -f $HOME/.kube/config && cp $KUBE_CONFIG_FILE $HOME/.kube/config
     - cd /spring-boot
     - terraform init
       -backend-config="address=https://gitlab.wingmarts.com/api/v4/projects/${CI_PROJECT_ID}/terraform/state/${SUB_DOMAIN_NAME}"
