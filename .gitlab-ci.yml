@@ -37,9 +37,9 @@ docker-build:
   only:
     - dev
 
-terraform-destroy:
+destroy:
   image: public.ecr.aws/b1t9u1a9/gitlab-runner:0.0.11
-  stage: terraform
+  stage: deploy
   variables:
     GIT_STRATEGY: none
   environment:
