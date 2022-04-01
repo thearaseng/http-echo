@@ -72,7 +72,7 @@ deploy:
       apiVersion: networking.k8s.io/v1
       metadata:
         name: ${CI_COMMIT_REF_NAME}-${SERVICE_NAME}
-        namespace: default
+        namespace: ${CI_COMMIT_REF_NAME}
         annotations:
           nginx.ingress.kubernetes.io/rewrite-target: /
       spec:
